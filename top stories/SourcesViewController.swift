@@ -32,6 +32,10 @@ class SourcesViewController: UITableViewController {
         }
     }
     
+    @IBAction func onDoneButtonTapped(_ sender: Any) {
+        exit(0)
+    }
+    
     func parse (json: JSON) {
         for result in json["sources"].arrayValue {
             let id = result["id"].stringValue
@@ -65,5 +69,12 @@ class SourcesViewController: UITableViewController {
         cell.textLabel?.text = source["name"]
         cell.detailTextLabel?.text = source["description"]
         return cell
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let dvc = segue.destination as! ArticlesViewController
+        let index = tableView.indexPathForSelectedRow?.row
+        dvc.source = sources[index!]
+        dvc.apiKey = apiKey
     }
 }
